@@ -1,33 +1,31 @@
 import React from 'react';
-import { Redirect } from 'react-router';
+import { createBrowserRouter } from 'react-router-dom';
 import Home from '../application/Home';
 import Recommend from '../application/Recommend';
 import Singers from '../application/Singers';
 import Rank from '../application/Rank';
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default [
+const router = createBrowserRouter( [
   {
     path: '/',
-    component: Home,
-    routes: [
+    element: <Home />,
+    children: [
+      // 默认跳转到推荐列表
       {
-        path: '/',
-        exact: true,
-        render: () => <Redirect to={'/recommend'} />,
-      },
-      {
+        // index: true,
         path: '/recommend',
-        component: Recommend,
+        element: <Recommend />,
       },
       {
         path: '/singers',
-        component: Singers,
+        element: <Singers />
       },
       {
-        path: '/rank',
-        component: Rank,
-      },
-    ],
-  },
-];
+        path: 'rank',
+        element: <Rank />
+      }
+    ]
+  }
+])
+
+export default router;
