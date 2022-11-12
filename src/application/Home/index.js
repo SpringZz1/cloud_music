@@ -12,17 +12,26 @@ function Home(props) {
         <span className="iconfont search">&#xe62b;</span>
       </Top>
       <Tab>
-        <NavLink to="/" activeclassname="selected">
+        <NavLink
+          to="/recommend"
+          className={({ isActive }) => (isActive ? 'selected' : '')}
+        >
           <TabItem>
             <span>推荐</span>
           </TabItem>
         </NavLink>
-        <NavLink to="/singers" activeclassname="selected">
+        <NavLink
+          to="/singers"
+          className={({ isActive }) => (isActive ? 'selected' : '')}
+        >
           <TabItem>
             <span>歌手</span>
           </TabItem>
         </NavLink>
-        <NavLink to="/rank" activeclassname="selected">
+        <NavLink
+          to="/rank"
+          className={({ isActive }) => (isActive ? 'selected' : '')}
+        >
           <TabItem>
             <span>排行</span>
           </TabItem>

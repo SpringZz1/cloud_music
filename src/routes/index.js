@@ -12,7 +12,8 @@ const router = createBrowserRouter([
     children: [
       // 默认跳转到推荐列表
       {
-        index: true,
+        // index: true,
+        path: '/',
         element: <Navigate to="/recommend" />,
       },
       {
