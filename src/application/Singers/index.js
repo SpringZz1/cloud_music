@@ -14,6 +14,8 @@ import {
   refreshMoreHotSingerList,
 } from './store/actionCreators';
 import { connect } from 'react-redux';
+import Loading from '../../baseUI/loading';
+import LazyLoad, { forceCheck } from 'react-lazyload';
 
 function Singers(props) {
   // const singerList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => {
@@ -45,13 +47,23 @@ function Singers(props) {
     getHotSingerDispatch();
     // eslint-disable-next-line
   }, []);
+
   let handleUpdateAlpha = (val) => {
     setAlpha(val);
     updateDispatch(category, val);
   };
+
   let handleUpdateCategory = (val) => {
     setCategory(val);
     updateDispatch(val, alpha);
+  };
+
+  const handlePullUp = () => {
+    pullUpRefreshDispatch(category, alpha, category === '', pageCount);
+  };
+
+  const handlePullDown = () => {
+    pullDownRefreshDispatch(category, alpha);
   };
 
   const renderSingerList = () => {
@@ -62,12 +74,23 @@ function Singers(props) {
           return (
             <ListItem key={item.accountId + '' + index}>
               <div className="img_wrapper">
-                <img
-                  src={`${item.picUrl}?param=300x300`}
-                  width="100%"
-                  height="100%"
-                  alt="music"
-                />
+                <LazyLoad
+                  placeholder={
+                    <img
+                      width="100%"
+                      height="100%"
+                      src={require('./singer.png')}
+                      alt="music"
+                    />
+                  }
+                >
+                  <img
+                    src={`${item.picUrl}?param=300x300`}
+                    width="100%"
+                    height="100%"
+                    alt="music"
+                  />
+                </LazyLoad>
               </div>
               <span className="name">{item.name}</span>
             </ListItem>
@@ -94,7 +117,16 @@ function Singers(props) {
         ></Horizen>
       </NavContainer>
       <ListContainer>
-        <Scroll>{renderSingerList()}</Scroll>
+        <Scroll
+          pullUp={handlePullUp}
+          pullDown={handlePullDown}
+          pullUpLoading={pullUpLoading}
+          pullDownLoading={pullDownLoading}
+          onScroll={forceCheck}
+        >
+          {renderSingerList()}
+        </Scroll>
+        {enterLoading ? <Loading></Loading> : null}
       </ListContainer>
     </div>
   );
