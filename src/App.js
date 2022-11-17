@@ -5,13 +5,16 @@ import { RouterProvider } from 'react-router-dom';
 import store from './store';
 // import reducer from './store/reducer';
 import { Provider } from 'react-redux';
+import { Data } from './application/Singers/data';
 
 function App() {
   return (
     <Provider store={store}>
       <GlobalStyle></GlobalStyle>
       <IconStyle></IconStyle>
-      <RouterProvider router={router}></RouterProvider>
+      <Data>
+        <RouterProvider router={router}></RouterProvider>
+      </Data>
       {/* <div className="App">
         <i className="iconfont">&#xe62b;</i>
       </div> */}
