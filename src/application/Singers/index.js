@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Horizen from '../../baseUI/horizen-item';
 import { alphaTypes, categoryTypes } from '../../api/config';
 import Scroll from '../../baseUI/scroll';
@@ -16,6 +16,7 @@ import {
 import { connect } from 'react-redux';
 import Loading from '../../baseUI/loading';
 import LazyLoad, { forceCheck } from 'react-lazyload';
+import { CategoryDataContext, CHANGE_ALPHA, CHANGE_CATEGORY } from './data';
 
 function Singers(props) {
   // const singerList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => {
@@ -26,8 +27,10 @@ function Singers(props) {
   //     accountId: 277313426,
   //   };
   // });
-  let [category, setCategory] = useState('');
-  let [alpha, setAlpha] = useState('');
+  // let [category, setCategory] = useState('');
+  // let [alpha, setAlpha] = useState('');
+  const { data, dispatch } = useContext(CategoryDataContext);
+  const { category, alpha } = data.toJS();
 
   const {
     singerList,
@@ -44,17 +47,21 @@ function Singers(props) {
   } = props;
 
   useEffect(() => {
-    getHotSingerDispatch();
+    if (!singerList.size) {
+      getHotSingerDispatch();
+    }
     // eslint-disable-next-line
   }, []);
 
   let handleUpdateAlpha = (val) => {
-    setAlpha(val);
+    // setAlpha(val);
+    dispatch({ type: CHANGE_ALPHA, data: val });
     updateDispatch(category, val);
   };
 
   let handleUpdateCategory = (val) => {
-    setCategory(val);
+    // setCategory(val);
+    dispatch({ type: CHANGE_CATEGORY, data: val });
     updateDispatch(val, alpha);
   };
 
