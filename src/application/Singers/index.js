@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import Loading from '../../baseUI/loading';
 import LazyLoad, { forceCheck } from 'react-lazyload';
 import { CategoryDataContext, CHANGE_ALPHA, CHANGE_CATEGORY } from './data';
+import { Outlet, useNavigate } from 'react-router';
 
 function Singers(props) {
   // const singerList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => {
@@ -73,13 +74,21 @@ function Singers(props) {
     pullDownRefreshDispatch(category, alpha);
   };
 
+  const navigate = useNavigate();
+  const enterDetail = (id) => {
+    navigate(`/singers/${id}`);
+  };
+
   const renderSingerList = () => {
     const list = singerList ? singerList.toJS() : [];
     return (
       <List>
         {list.map((item, index) => {
           return (
-            <ListItem key={item.accountId + '' + index}>
+            <ListItem
+              key={item.accountId + '' + index}
+              onClick={() => enterDetail(item.id)}
+            >
               <div className="img_wrapper">
                 <LazyLoad
                   placeholder={
@@ -135,6 +144,7 @@ function Singers(props) {
         </Scroll>
         {enterLoading ? <Loading></Loading> : null}
       </ListContainer>
+      <Outlet />
     </div>
   );
 }
