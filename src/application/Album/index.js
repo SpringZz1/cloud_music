@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { changeEnterLoading, getAlbumList } from './store/actionCreators';
 import { useParams } from 'react-router-dom';
 import Loading from '../../baseUI/loading/index';
+// import SongsList from '../SongsList';
 
 function Album(props) {
   const [showStatus, setShowStatus] = useState(true);
@@ -27,7 +28,7 @@ function Album(props) {
 
   const handleBack = useCallback(() => {
     setShowStatus(false);
-  },[]);
+  }, []);
 
   const navigate = useNavigate();
 
@@ -127,7 +128,7 @@ function Album(props) {
       }}
       appear={true}
       unmountOnExit={true}
-      onExited={() => navigate('/')}
+      onExited={() => navigate(-1)}
     >
       <Container>
         <Header title={'返回'} handleClick={handleBack}></Header>
@@ -138,6 +139,12 @@ function Album(props) {
               {renderTopDesc()}
               {renderMenu()}
               {renderSongList()}
+              {/* <SongsList
+                songs={currentAlbum.tracks}
+                collectCount={currentAlbum.subscribedCount}
+                showCollect={true}
+                showBackground={true}
+              ></SongsList> */}
             </div>
           </Scroll>
         ) : null}
