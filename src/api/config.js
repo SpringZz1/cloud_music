@@ -202,5 +202,9 @@ export const categoryMap = new Map([
   ['4001', { type: 1, area: 0 }],
   ['4002', { type: 2, area: 0 }],
   ['4003', { type: 3, area: 0 }],
- ]);
+]);
+
+//顶部的高度
+export const HEADER_HEIGHT = 45;
+
 export { axiosInstance };
