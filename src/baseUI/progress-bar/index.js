@@ -37,6 +37,7 @@ const ProgressBarWrapper = styled.div`
 `;
 
 function ProgressBar(props) {
+  const { percentChange } = props;
   const progressBar = useRef();
   const progress = useRef();
   const progressBtn = useRef();
@@ -57,9 +58,37 @@ function ProgressBar(props) {
     setTouch(startTouch);
   };
 
+  const _changePercent = () => {
+    const barWidth = progressBar.current.clientWidth - progressBtnWidth;
+    const curPercent = progress.current.clientWidth / barWidth; // 新的进度计算
+    percentChange(curPercent); // 把新的进度穿给回调函数并执行
+  };
+
+  const progressTouchMove = (e) => {
+    if (!touch.initiated) return;
+    // 滑动距离
+    const deltaX = e.touches[0].pageX - touch.startX;
+    const barWidth = progressBar.current.clientWidth - progressBtnWidth;
+    const offsetWidth = Math.min(Math.max(0, touch.left + deltaX), barWidth);
+    _offset(offsetWidth);
+  };
+
+  const progressTouchEnd = (e) => {
+    const endTouch = JSON.parse(JSON.stringify(touch));
+    endTouch.initiated = false;
+    setTouch(endTouch);
+  };
+
+  const progressClick = (e) => {
+    const rect = progressBar.current.getBoundingClientRect();
+    const offsetWidth = e.pageX - rect.left;
+    _offset(offsetWidth);
+    _changePercent();
+  };
+
   return (
     <ProgressBarWrapper>
-      <div className="bar-inner" ref={progressBar}>
+      <div className="bar-inner" ref={progressBar} onClick={progressClick}>
         <div className="progress" ref={progress}></div>
         <div
           className="progress-btn-wrapper"
