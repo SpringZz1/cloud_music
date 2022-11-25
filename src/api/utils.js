@@ -44,3 +44,32 @@ export const getName = (list) => {
 
 // 判断一个对象是否为空
 export const isEmptyObject = (obj) => !obj || Object.keys(obj).length === 0;
+
+let elementStyle = document.createElement('div').style;
+
+let vedor = (() => {
+  // 首先通过transition属性判断是何种浏览器
+  let transformNames = {
+    webkit: 'webkitTransform',
+    Moz: 'MozTransform',
+    O: 'OTransfrom',
+    ms: 'msTransform',
+    standard: 'Transform',
+  };
+  for (let key in transformNames) {
+    if (elementStyle[transformNames[key]] !== undefined) {
+      return key;
+    }
+  }
+  return false;
+})();
+
+export function prefixStyle(style) {
+  if (vedor === false) {
+    return false;
+  }
+  if (vedor === 'standard') {
+    return style;
+  }
+  return vedor + style.charAt(0).toUpperCase() + style.substr(1);
+}
