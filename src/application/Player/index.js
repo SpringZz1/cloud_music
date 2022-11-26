@@ -134,23 +134,41 @@ function Player(props) {
     changeCurrentIndexDispatch(0); // currentIndex默认为-1，临时改成0
     let current = playList[0];
     changeCurrentDispatch(current); // 赋值currentSong
-    // audioRef.current.src = getSongUrl(current.id);
+    audioRef.current.src = getSongUrl(current.id);
     // setTimeout(() => {
     //   audioRef.current.play();
     // });
-    togglePlayingDispatch(true); // 播放状态
+    togglePlayingDispatch(false); // 播放状态
     setCurrentTime(0); // 从头开始播放
     setDuration((current.dt / 1000) | 0); // 时长
   }, []);
 
+  // useEffect(() => {
+  //   playing ? audioRef.current.play() : audioRef.current.pause();
+  // }, [playing]);
+
   const clickPlaying = (e, state) => {
     e.stopPropagation();
     togglePlayingDispatch(state);
-    audioRef.current.src = getSongUrl(current.id);
-    if (state === true) {
-      audioRef.current.play();
-    } else {
-      audioRef.current.pause();
+    playing ? audioRef.current.pause() : audioRef.current.play();
+    // audioRef.current.src = getSongUrl(current.id);
+    // if (state === true) {
+    //   audioRef.current.play();
+    // } else {
+    //   audioRef.current.pause();
+    // }
+  };
+
+  const updateTime = (e) => {
+    setCurrentTime(e.target.currentTime);
+  };
+
+  const onProgressChange = (curPercent) => {
+    const newTime = curPercent * duration;
+    setCurrentTime(newTime);
+    audioRef.current.currentTime = newTime;
+    if (!playing) {
+      togglePlayingDispatch(true);
     }
   };
 
@@ -161,6 +179,7 @@ function Player(props) {
           song={currentSong}
           fullScreen={fullScreen}
           playing={playing}
+          percent={percent} // 进度
           toggleFullScreenDispatch={toggleFullScreenDispatch}
           clickPlaying={clickPlaying}
         />
@@ -170,12 +189,16 @@ function Player(props) {
           song={currentSong}
           fullScreen={fullScreen}
           playing={playing}
+          duration={duration} // 总时长
+          currentTime={currentTime} // 播放时间
+          percent={percent} // 进度
           toggleFullScreenDispatch={toggleFullScreenDispatch}
           clickPlaying={clickPlaying}
+          onProgressChange={onProgressChange}
         />
       )}
 
-      <audio ref={audioRef}></audio>
+      <audio ref={audioRef} onTimeUpdate={updateTime}></audio>
     </div>
   );
 }
