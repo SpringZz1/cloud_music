@@ -144,10 +144,9 @@ function Player(props) {
   // let current = playList[0];
 
   //先mock一份currentIndex
-  useEffect(() => {
-    changeCurrentIndexDispatch(0);
-    // console.log(playList);
-  }, []);
+  // useEffect(() => {
+  //   changeCurrentIndexDispatch(0);
+  // }, []);
 
   useEffect(() => {
     // if (!currentSong) return;
