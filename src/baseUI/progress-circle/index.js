@@ -8,15 +8,15 @@ const CircleWrapper = styled.div`
     stroke-width: 8px;
     transform-origin: center;
     &.progress-background {
-      transform: scale (0.9);
-      stroke: ${style['theme-color-shadow']};
+      transform: scale(0.9);
+      stroke: ${style["theme-color-shadow"]};
     }
     &.progress-bar {
-      transform: scale (0.9) rotate (-90deg);
-      stroke: ${style['theme-color']};
+      transform: scale(0.9) rotate(-90deg);
+      stroke: ${style["theme-color"]};
     }
   }
-`;
+`
 
 function ProgressCircle(props) {
   const { radius, percent } = props;
