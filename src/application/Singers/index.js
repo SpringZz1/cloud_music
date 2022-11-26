@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import Horizen from '../../baseUI/horizen-item';
 import { alphaTypes, categoryTypes } from '../../api/config';
 import Scroll from '../../baseUI/scroll';
