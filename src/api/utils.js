@@ -85,3 +85,29 @@ export const formatPlayTime = (interval) => {
   const second = (interval % 60).toString().padStart(2, '0');
   return `${minute}:${second}`;
 };
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+// 随机算法
+export const shuffle = (arr) => {
+  let newArr = [];
+  arr.forEach((item) => {
+    newArr.push(item);
+  });
+  for (let i = 0; i < newArr.length; i++) {
+    let j = getRandomInt(0, i);
+    let t = newArr[j];
+    newArr[i] = newArr[j];
+    newArr[j] = t;
+  }
+  return newArr;
+};
+
+// 找到当前的歌曲索引
+export const findIndex = (song, list) => {
+  return list.findIndex((item) => {
+    return song.id === item.id;
+  });
+};
