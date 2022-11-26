@@ -10,9 +10,12 @@ import { connect } from 'react-redux';
 import Loading from './../../baseUI/loading/index';
 import { getSingerInfo, changeEnterLoading } from './store/actionCreators';
 import { useParams, useNavigate } from 'react-router';
+import MusicNote from '../../baseUI/music-note/index';
 
 function Singer(props) {
   const initialHeight = useRef(0);
+  const musicNoteRef = useRef();
+
   const [showStatus, setShowStatus] = useState(true);
 
   const { artist: immutableArtist, songs: immutableSongs, loading } = props;
@@ -90,6 +93,10 @@ function Singer(props) {
     setShowStatus(false);
   }, []);
 
+  const musicAnimation = (x, y) => {
+    musicNoteRef.current.startAnimation({ x, y });
+  };
+
   return (
     <CSSTransition
       in={showStatus}
@@ -115,10 +122,15 @@ function Singer(props) {
         <BgLayer ref={layer}></BgLayer>
         <SongListWrapper ref={songScrollWrapper}>
           <Scroll ref={songScroll} onScroll={handleScroll}>
-            <SongsList songs={songs} showCollect={false}></SongsList>
+            <SongsList
+              songs={songs}
+              showCollect={false}
+              musicAnimation={musicAnimation}
+            ></SongsList>
           </Scroll>
         </SongListWrapper>
         {loading ? <Loading></Loading> : null}
+        <MusicNote ref={musicNoteRef}></MusicNote>
       </Container>
     </CSSTransition>
   );
