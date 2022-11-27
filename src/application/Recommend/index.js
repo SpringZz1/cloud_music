@@ -12,6 +12,7 @@ import { Outlet } from 'react-router';
 function Recommend(props) {
   const { bannerList, recommendList, enterLoading } = props;
   const { getBannerDataDispatch, getRecommendListDataDispatch } = props;
+  const { songCount } = props;
 
   useEffect(() => {
     // 如果页面有数据则不发送请求
@@ -47,7 +48,7 @@ function Recommend(props) {
   // });
 
   return (
-    <Content>
+    <Content play={songCount}>
       <Scroll className="list" onScroll={forceCheck}>
         <div>
           <Slider bannerList={bannerListJS}></Slider>
@@ -67,6 +68,7 @@ const mapStateToProps = (state) => ({
   bannerList: state.getIn(['recommend', 'bannerList']),
   recommendList: state.getIn(['recommend', 'recommendList']),
   enterLoading: state.getIn(['recommend', 'enterLoading']),
+  songCount: state.getIn(['player', 'playList']).size, // 尽量减少toJS操作, 直接取size属性就代表了list的长度
 });
 
 // 映射dispatch到props上

@@ -178,7 +178,7 @@ function NormalPlayer(props) {
             <div className="icon i-center">
               <i
                 className="iconfont"
-                onClick={(e) => clickPlaying(e, !playing)}
+                onClick={(e) => clickPlaying(e)}
                 dangerouslySetInnerHTML={{
                   __html: playing ? '&#xe723;' : '&#xe731;',
                 }}

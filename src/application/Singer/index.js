@@ -21,6 +21,7 @@ function Singer(props) {
   const { artist: immutableArtist, songs: immutableSongs, loading } = props;
 
   const { getSingerDataDispatch } = props;
+  const { songCount } = props;
 
   const collectButton = useRef();
   const imageWrapper = useRef();
@@ -106,7 +107,7 @@ function Singer(props) {
       unmountOnExit
       onExited={() => navigate(-1)}
     >
-      <Container>
+      <Container play={songCount}>
         <Header
           handleClick={setShowStatusFalse}
           title={artist.name}
@@ -141,6 +142,7 @@ const mapStateToProps = (state) => ({
   artist: state.getIn(['singerInfo', 'artist']),
   songs: state.getIn(['singerInfo', 'songsOfArtist']),
   loading: state.getIn(['singerInfo', 'loading']),
+  songCount: state.getIn(['player', 'playList']).size, // 尽量减少toJS操作，直接取size属性就代表了list的长度
 });
 // 映射dispatch到props上
 const mapDispatchToProps = (dispatch) => {

@@ -46,6 +46,7 @@ function Singers(props) {
     pullDownRefreshDispatch,
     pullUpRefreshDispatch,
   } = props;
+  const {songCount} = props;
 
   useEffect(() => {
     if (!singerList.size) {
@@ -118,7 +119,7 @@ function Singers(props) {
 
   return (
     <div>
-      <NavContainer>
+      <NavContainer >
         <Horizen
           list={categoryTypes}
           title={'分类(默认热门):'}
@@ -132,7 +133,7 @@ function Singers(props) {
           oldVal={alpha}
         ></Horizen>
       </NavContainer>
-      <ListContainer>
+      <ListContainer play={songCount}>
         <Scroll
           pullUp={handlePullUp}
           pullDown={handlePullDown}
@@ -155,6 +156,7 @@ const mapStateToProps = (state) => ({
   pullUpLoading: state.getIn(['singers', 'pullUpLoading']),
   pullDownLoading: state.getIn(['singers', 'pullDownLoading']),
   pageCount: state.getIn(['singers', 'pageCount']),
+  songCount: state.getIn(['player','playList']).size, // 尽量减少toJS操作, 直接取size属性代表了list的长度
 });
 
 const mapDispatchToProps = (dispatch) => {

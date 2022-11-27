@@ -130,23 +130,7 @@ function Player(props) {
 
   // 绑定ref
   const audioRef = useRef();
-
-  // mock数据
-  // const currentSong = {
-  //   al: {
-  //     picUrl:
-  //       'https://p1.music.126.net/JL_id1CFwNJpzgrXwemh4Q==/109951164172892390.jpg',
-  //   },
-  //   name: '木偶人',
-  //   ar: [{ name: '薛之谦' }],
-  // };
-
-  // let current = playList[0];
-
-  //先mock一份currentIndex
-  // useEffect(() => {
-  //   changeCurrentIndexDispatch(0);
-  // }, []);
+  // const songReady = useRef(true);
 
   useEffect(() => {
     // if (!currentSong) return;
@@ -163,7 +147,7 @@ function Player(props) {
     // setTimeout(() => {
     //   audioRef.current.play();
     // });
-    togglePlayingDispatch(false); //播放状态
+    togglePlayingDispatch(true); //播放状态
     setCurrentTime(0); //从头开始播放
     setDuration((current.dt / 1000) | 0); //时长
   }, [currentIndex]);
@@ -174,14 +158,21 @@ function Player(props) {
 
   const clickPlaying = (e, state) => {
     e.stopPropagation();
-    togglePlayingDispatch(state);
-    playing ? audioRef.current.pause() : audioRef.current.play();
+    // togglePlayingDispatch(state);
+    // playing ? audioRef.current.pause() : audioRef.current.play();
     // audioRef.current.src = getSongUrl(current.id);
     // if (state === true) {
     //   audioRef.current.play();
     // } else {
     //   audioRef.current.pause();
     // }
+    if (!playing) {
+      audioRef.current.play();
+      togglePlayingDispatch(true);
+    } else {
+      audioRef.current.pause();
+      togglePlayingDispatch(false);
+    }
   };
 
   const updateTime = (e) => {
@@ -298,6 +289,7 @@ function Player(props) {
         ref={audioRef}
         onTimeUpdate={updateTime}
         onEnded={handleEnd}
+        autoPlay={true}
       ></audio>
       <Toast text={modeText} ref={toastRef}></Toast>
     </div>

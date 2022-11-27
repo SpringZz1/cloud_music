@@ -20,6 +20,7 @@ function Album(props) {
 
   const { currentAlbum: currentAlbumImmutable, enterLoading } = props;
   const { getAlbumDataDispatch } = props;
+  const { songCount } = props;
   const musicNoteRef = useRef();
 
   useEffect(() => {
@@ -136,7 +137,7 @@ function Album(props) {
       unmountOnExit={true}
       onExited={() => navigate(-1)}
     >
-      <Container>
+      <Container play={songCount}>
         <Header title={'返回'} handleClick={handleBack}></Header>
         {/*这里是具体布局的JSX代码*/}
         {!isEmptyObject(currentAlbum) ? (
@@ -167,6 +168,7 @@ const mapStateToProps = (state) => {
   return {
     currentAlbum: state.getIn(['album', 'currentAlbum']),
     enterLoading: state.getIn(['album', 'enterLoading']),
+    songCount: state.getIn(['player', 'playList']).size,
   };
 };
 
