@@ -46,15 +46,15 @@ function MiniPlayer(props) {
           <ProgressCircle radius={32} percent={percent}>
             {playing ? (
               <i
-                className="icon-mini iconfont icon-pause"
-                onClick={(e) => clickPlaying(e, false)}
+                className="icon-mini iconfont icon-play"
+                onClick={(e) => clickPlaying(e)}
               >
                 &#xe650;
               </i>
             ) : (
               <i
-                className="icon-mini iconfont icon-play"
-                onClick={(e) => clickPlaying(e, true)}
+                className="icon-mini iconfont icon-pause"
+                onClick={(e) => clickPlaying(e)}
               >
                 &#xe61e;
               </i>
