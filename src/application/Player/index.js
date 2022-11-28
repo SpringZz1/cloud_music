@@ -16,6 +16,7 @@ import {
 import { getSongUrl, isEmptyObject, shuffle, findIndex } from '../../api/utils';
 import Toast from './../../baseUI/toast/index';
 import { playMode } from '../../api/config';
+import PlayList from './play-list';
 
 function Player(props) {
   // 从redux中取redux数据和dispatch方法
@@ -36,6 +37,7 @@ function Player(props) {
     changePlayListDispatch, //改变playList
     changeModeDispatch, //改变mode
     toggleFullScreenDispatch,
+    togglePlayListDispatch,
   } = props;
 
   const playList = immutablePlayList.toJS();
@@ -143,6 +145,7 @@ function Player(props) {
       return;
     let current = playList[currentIndex];
     changeCurrentDispatch(current); //赋值currentSong
+    setPreSong(current);
     audioRef.current.src = getSongUrl(current.id);
     // setTimeout(() => {
     //   audioRef.current.play();
@@ -150,7 +153,14 @@ function Player(props) {
     togglePlayingDispatch(true); //播放状态
     setCurrentTime(0); //从头开始播放
     setDuration((current.dt / 1000) | 0); //时长
-  }, [currentIndex]);
+  }, [currentIndex, currentSong.id]);
+
+  // useEffect(()=>{
+  //   audioRef.current.src = getSongUrl(currentSong.id);
+  //   togglePlayingDispatch(true); //播放状态
+  //   setCurrentTime(0); //从头开始播放
+
+  // },[currentSong.id])
 
   // useEffect(() => {
   //   playing ? audioRef.current.play() : audioRef.current.pause();
@@ -265,6 +275,7 @@ function Player(props) {
           percent={percent} // 进度
           toggleFullScreenDispatch={toggleFullScreenDispatch}
           clickPlaying={clickPlaying}
+          togglePlayList={togglePlayListDispatch}
         />
       )}
       {isEmptyObject(currentSong) ? null : (
@@ -282,6 +293,7 @@ function Player(props) {
           handleNext={handleNext}
           mode={mode}
           changeMode={changeMode}
+          togglePlayList={togglePlayListDispatch}
         />
       )}
 
@@ -291,6 +303,7 @@ function Player(props) {
         onEnded={handleEnd}
         autoPlay={true}
       ></audio>
+      <PlayList></PlayList>
       <Toast text={modeText} ref={toastRef}></Toast>
     </div>
   );
