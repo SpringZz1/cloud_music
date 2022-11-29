@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import MiniPlayer from './miniPlayer';
 import NormalPlayer from './normalPlayer';
+import Lyric from '../../api/lyric-parser';
 
 import {
   changePlayingState,
@@ -17,6 +18,7 @@ import { getSongUrl, isEmptyObject, shuffle, findIndex } from '../../api/utils';
 import Toast from './../../baseUI/toast/index';
 import { playMode } from '../../api/config';
 import PlayList from './play-list';
+import { getLyricRequest } from '../../api/request';
 
 function Player(props) {
   // 从redux中取redux数据和dispatch方法
@@ -52,7 +54,9 @@ function Player(props) {
   let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
 
   const [modeText, setModeText] = useState('');
+
   const toastRef = useRef();
+  const currentLyric = useRef();
 
   // 绑定ref
   const audioRef = useRef();
@@ -80,9 +84,27 @@ function Player(props) {
     // });
     togglePlayingDispatch(true); //播放状态
 
+    getLyric(current.id);
     setCurrentTime(0); //从头开始播放
     setDuration((current.dt / 1000) | 0); //时长
   }, [currentIndex, currentSong.id]);
+
+  const getLyric = (id) => {
+    let lyric = '';
+    getLyricRequest(id)
+      .then((data) => {
+        console.log(data);
+        lyric = data.lrc.lyric;
+        if (!lyric) {
+          currentLyric.current = null;
+          return;
+        }
+      })
+      .catch(() => {
+        // songReady.current = true;
+        audioRef.current.play();
+      });
+  };
 
   const clickPlaying = (e, state) => {
     e.stopPropagation();
