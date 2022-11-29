@@ -54,9 +54,11 @@ function Player(props) {
   let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
 
   const [modeText, setModeText] = useState('');
+  const [currentPlayingLyric, setPlayingLyric] = useState('');
 
   const toastRef = useRef();
   const currentLyric = useRef();
+  const currentLineNum = useRef(0);
 
   // 绑定ref
   const audioRef = useRef();
@@ -91,6 +93,9 @@ function Player(props) {
 
   const getLyric = (id) => {
     let lyric = '';
+    if (currentLyric.current) {
+      currentLyric.current.stop();
+    }
     getLyricRequest(id)
       .then((data) => {
         console.log(data);
@@ -99,6 +104,10 @@ function Player(props) {
           currentLyric.current = null;
           return;
         }
+        currentLyric.current = new Lyric(lyric, handleLyric);
+        currentLyric.current.play();
+        currentLineNum.current = 0;
+        currentLyric.current.seek(0);
       })
       .catch(() => {
         // songReady.current = true;
@@ -115,6 +124,9 @@ function Player(props) {
       audioRef.current.pause();
       togglePlayingDispatch(false);
     }
+    if (currentLyric.current) {
+      currentLyric.current.togglePlay(currentTime * 1000);
+    }
   };
 
   const updateTime = (e) => {
@@ -127,6 +139,9 @@ function Player(props) {
     audioRef.current.currentTime = newTime;
     if (!playing) {
       togglePlayingDispatch(true);
+    }
+    if (currentLyric.current) {
+      currentLyric.current.seek(newTime * 1000);
     }
   };
 
@@ -203,6 +218,12 @@ function Player(props) {
     // console.log(preSongRef.current);
   };
 
+  const handleLyric = ({ lineNum, txt }) => {
+    if (!currentLyric.current) return;
+    currentLineNum.current = lineNum;
+    setPlayingLyric(txt);
+  };
+
   return (
     <div>
       {isEmptyObject(currentSong) ? null : (
@@ -232,6 +253,9 @@ function Player(props) {
           mode={mode}
           changeMode={changeMode}
           togglePlayList={togglePlayListDispatch}
+          currentLyric={currentLyric.current}
+          currentPlayingLyric={currentPlayingLyric}
+          currentLineNum={currentLineNum.current}
         />
       )}
 

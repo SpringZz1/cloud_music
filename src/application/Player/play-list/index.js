@@ -17,6 +17,7 @@ import {
   changeSequecePlayList,
   changeCurrentSong,
   changePlayingState,
+  changeFullScreen,
 } from '../store/actionCreators';
 import { playMode } from '../../../api/config';
 import Scroll from '../../../baseUI/scroll';
@@ -334,6 +335,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(changeCurrentSong({}));
       // 5. 重置播放状态
       dispatch(changePlayingState(false));
+      // 6. 退出全屏
+      dispatch(changeFullScreen(false));
     },
   };
 };
