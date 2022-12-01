@@ -3,14 +3,18 @@ import { Outlet } from 'react-router';
 import { Top, Tab, TabItem } from './style';
 import { NavLink } from 'react-router-dom';
 import Player from '../Player';
+import { useNavigate } from 'react-router';
 
 function Home(props) {
+  const navigate = useNavigate();
   return (
     <div>
       <Top>
         <span className="iconfonr menu">&#xe65c;</span>
         <span className="title">WebApp</span>
-        <span className="iconfont search">&#xe62b;</span>
+        <span className="iconfont search" onClick={() => navigate('/search')}>
+          &#xe62b;
+        </span>
       </Top>
       <Tab>
         <NavLink
