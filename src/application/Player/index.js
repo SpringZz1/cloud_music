@@ -98,7 +98,7 @@ function Player(props) {
     }
     getLyricRequest(id)
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         lyric = data.lrc.lyric;
         if (!lyric) {
           currentLyric.current = null;
