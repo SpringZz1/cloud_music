@@ -5,6 +5,7 @@ import { reducer as rankReducer } from '../application/Rank/store/index'; // ran
 import { reducer as albumReducer } from '../application/Album/store/index'; // album模块的reducer
 import { reducer as singerInfoReducer } from '../application/Singer/store/index'; // singer模块的reducer
 import { reducer as playerReducer } from '../application/Player/store/index'; // player模块的reducer
+import { reducer as searchRedycer } from '../application/Search/index'; // search模块的reducer
 
 // 将所有reducer注册到全局store
 export default combineReducers({
@@ -15,4 +16,5 @@ export default combineReducers({
   album: albumReducer,
   singerInfo: singerInfoReducer,
   player: playerReducer,
+  search: searchRedycer,
 });
