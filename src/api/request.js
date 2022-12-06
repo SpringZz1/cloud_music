@@ -53,3 +53,8 @@ export const getSuggestListRequest = (query) => {
 export const getResultSongsListRequest = (query) => {
   return axiosInstance.get(`/search?keywords=${query}`);
 };
+
+// 拿到id重新获取具体的单曲数据
+export const getSongDetailRequest = (id) => {
+  return axiosInstance.get(`/song/detail?ids=${id}`);
+};
