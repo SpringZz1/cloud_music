@@ -38,6 +38,11 @@ const router = createBrowserRouter([
         path: 'search',
         element: <Search />,
       },
+      // 添加album路由, 用来显示歌单
+      {
+        path: '/album/:id',
+        element: <Album />
+      },
     ],
   },
 ]);
