@@ -12,13 +12,13 @@ const defaultState = fromJS({
 export default (state = defaultState, action) => {
   switch (action.type) {
     case actionTypes.SET_HOT_KEYWORDS:
-      return state.set(['hotList', action.data]);
-    case actionTypes.SET_SUGGEST_LIST:
-      return state.set(['hotList', action.data]);
-    case actionTypes.SET_RESULT_SONGS:
-      return state.set(['hotList', action.data]);
-    case actionTypes.SET_ENTER_LOADING:
       return state.set('hotList', action.data);
+    case actionTypes.SET_SUGGEST_LIST:
+      return state.set('suggestList', action.data);
+    case actionTypes.SET_RESULT_SONGS:
+      return state.set('songsList', action.data);
+    case actionTypes.SET_ENTER_LOADING:
+      return state.set('enterLoading', action.data);
     default:
       return state;
   }
