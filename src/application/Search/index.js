@@ -10,6 +10,7 @@ import {
   getSuggestList,
 } from './store/actionCreators';
 import Scroll from '../../baseUI/scroll';
+import loading from '../../baseUI/loading';
 
 function Search(props) {
   const {
@@ -36,6 +37,11 @@ function Search(props) {
 
   useEffect(() => {
     setShow(true);
+    // 初次渲染时，发送ajax请求拿到热门列表
+    if (!hotList.size) {
+      getHotKeyWordsDispatch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setShowFalse = () => {
@@ -49,6 +55,25 @@ function Search(props) {
 
   const handleQuery = (q) => {
     setQuery(q);
+  };
+
+  const renderHotKey = () => {
+    let list = hotList ? hotList.toJS() : [];
+    return (
+      <ul>
+        {list.map((item) => {
+          return (
+            <li
+              className="item"
+              key={item.first}
+              onClick={() => setQuery(item.first)}
+            >
+              <span>{item.first}</span>
+            </li>
+          );
+        })}
+      </ul>
+    );
   };
 
   return (
@@ -68,6 +93,16 @@ function Search(props) {
             handleQuery={handleQuery}
           ></SearchBox>
         </div>
+        <ShortcutWrapper show={!query}>
+          <Scroll>
+            <div>
+              <HotKey>
+                <h1 className="title">热门搜索</h1>
+                {renderHotKey()}
+              </HotKey>
+            </div>
+          </Scroll>
+        </ShortcutWrapper>
         {/* <div onClick={() => setShowFalse}>返回</div> */}
       </Container>
     </CSSTransition>
