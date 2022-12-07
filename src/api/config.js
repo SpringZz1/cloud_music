@@ -204,6 +204,27 @@ export const categoryMap = new Map([
   ['4003', { type: 3, area: 0 }],
 ]);
 
+// 播放速度
+export const list = [
+  {
+    key: 0.75,
+    name: 'x0.75',
+  },
+  {
+    key: 1,
+    name: 'x1',
+  },
+  {
+    key: 1.25,
+    name: 'x1.25',
+  },
+  {
+    key: 1.5,
+    name: 'x1.5',
+  },
+  { key: 2, name: 'x2' },
+];
+
 //顶部的高度
 export const HEADER_HEIGHT = 45;
 
