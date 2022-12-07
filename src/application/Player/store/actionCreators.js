@@ -9,6 +9,7 @@ import {
   SET_SHOW_PLAYLIST,
   DELETE_SONG,
   INSERT_SONG,
+  CHANGE_SPEED,
 } from './constants';
 import { fromJS } from 'immutable';
 import { getSongDetailRequest } from '../../../api/request';
@@ -60,6 +61,11 @@ export const deleteSong = (data) => ({
 
 export const insertSong = (data) => ({
   type: INSERT_SONG,
+  data,
+});
+
+export const changeSpeed = (data) => ({
+  type: CHANGE_SPEED,
   data,
 });
 

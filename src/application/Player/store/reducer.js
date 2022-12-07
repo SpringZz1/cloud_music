@@ -82,6 +82,7 @@ const defaultState = fromJS({
   currentIndex: -1, //当前歌曲在播放列表的索引位置
   showPlayList: false, //是否展示播放列表
   currentSong: {},
+  speed: 1,
 });
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -107,6 +108,8 @@ export default (state = defaultState, action) => {
       return handleDeleteSong(state, action.data);
     case actionTypes.INSERT_SONG:
       return handleInsertSong(state, action.data);
+    case actionTypes.CHANGE_SPEED:
+      return state.set('speed', action.data);
     default:
       return state;
   }
