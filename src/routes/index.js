@@ -1,12 +1,12 @@
-import React, { Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Home from '../application/Home';
-const Recommend = React.lazy(() => import('../application/Recommend'));
-const Singers = React.lazy(() => import('../application/Singers'));
-const Rank = React.lazy(() => import('../application/Rank'));
-const Singer = React.lazy(() => import('../application/Singer'));
-const Album = React.lazy(() => import('../application/Album'));
-const Search = React.lazy(() => import('../application/Search'));
+const Recommend = lazy(() => import('../application/Recommend'));
+const Singers = lazy(() => import('../application/Singers'));
+const Rank = lazy(() => import('../application/Rank'));
+const Singer = lazy(() => import('../application/Singer'));
+const Album = lazy(() => import('../application/Album'));
+const Search = lazy(() => import('../application/Search'));
 // import Singers from '../application/Singers';
 // import Rank from '../application/Rank';
 // import Album from '../application/Album';
@@ -31,17 +31,17 @@ const router = createBrowserRouter([
         path: '/recommend',
         // element: <Recommend />,
         element: (
-          <React.Suspense>
+          <Suspense>
             <Recommend />
-          </React.Suspense>
+          </Suspense>
         ),
         children: [
           {
             path: ':id',
             element: (
-              <React.Suspense>
+              <Suspense>
                 <Album />
-              </React.Suspense>
+              </Suspense>
             ),
           },
         ],
@@ -49,17 +49,17 @@ const router = createBrowserRouter([
       {
         path: '/singers',
         element: (
-          <React.Suspense>
+          <Suspense>
             <Singers />
-          </React.Suspense>
+          </Suspense>
         ),
         children: [
           {
             path: '/singers/:id',
             element: (
-              <React.Suspense>
+              <Suspense>
                 <Singer />
-              </React.Suspense>
+              </Suspense>
             ),
           },
         ],
@@ -67,17 +67,17 @@ const router = createBrowserRouter([
       {
         path: 'rank',
         element: (
-          <React.Suspense>
+          <Suspense>
             <Rank />
-          </React.Suspense>
+          </Suspense>
         ),
         children: [
           {
             path: ':id',
             element: (
-              <React.Suspense>
+              <Suspense>
                 <Album />
-              </React.Suspense>
+              </Suspense>
             ),
           },
         ],
@@ -85,18 +85,18 @@ const router = createBrowserRouter([
       {
         path: 'search',
         element: (
-          <React.Suspense>
+          <Suspense>
             <Search />
-          </React.Suspense>
+          </Suspense>
         ),
       },
       // 添加album路由, 用来显示歌单
       {
         path: '/album/:id',
         element: (
-          <React.Suspense>
+          <Suspense>
             <Album />
-          </React.Suspense>
+          </Suspense>
         ),
       },
     ],
