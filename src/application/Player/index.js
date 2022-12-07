@@ -16,9 +16,10 @@ import {
 } from './store/actionCreators';
 import { getSongUrl, isEmptyObject, shuffle, findIndex } from '../../api/utils';
 import Toast from './../../baseUI/toast/index';
-import { playMode } from '../../api/config';
+import { playMode, list } from '../../api/config';
 import PlayList from './play-list';
 import { getLyricRequest } from '../../api/request';
+import { changeSpeed } from './store/actionCreators';
 
 function Player(props) {
   // 从redux中取redux数据和dispatch方法
@@ -30,6 +31,7 @@ function Player(props) {
     mode, //播放模式
     sequencePlayList: immutableSequencePlayList, //顺序列表
     fullScreen,
+    speed,
   } = props;
 
   const {
@@ -40,6 +42,7 @@ function Player(props) {
     changeModeDispatch, //改变mode
     toggleFullScreenDispatch,
     togglePlayListDispatch,
+    changeSpeedDispatch,
   } = props;
 
   const playList = immutablePlayList.toJS();
@@ -81,6 +84,7 @@ function Player(props) {
     // setPreSong(current);
     preSongRef.current = current;
     audioRef.current.src = getSongUrl(current.id);
+    audioRef.current.playbackRate = speed;
     // setTimeout(() => {
     //   audioRef.current.play();
     // });
@@ -224,6 +228,15 @@ function Player(props) {
     setPlayingLyric(txt);
   };
 
+  const clickSpeed = (newSpeed) => {
+    changeSpeedDispatch(newSpeed);
+    // playBackRate为歌曲的播放速度, 可修改
+    audioRef.current.playbackRate = newSpeed;
+    // 同时要修改歌词
+    currentLyric.current.changeSpeed(newSpeed);
+    currentLyric.current.seek(currentTime * 1000);
+  };
+
   return (
     <div>
       {isEmptyObject(currentSong) ? null : (
@@ -256,6 +269,7 @@ function Player(props) {
           currentLyric={currentLyric.current}
           currentPlayingLyric={currentPlayingLyric}
           currentLineNum={currentLineNum.current}
+          clickSpeed={clickSpeed}
         />
       )}
 
@@ -278,6 +292,7 @@ const mapStateToProps = (state) => ({
   currentSong: state.getIn(['player', 'currentSong']),
   showPlayList: state.getIn(['player', 'showPlayList']),
   mode: state.getIn(['player', 'mode']),
+  speed: state.getIn(['player', 'speed']),
   currentIndex: state.getIn(['player', 'currentIndex']),
   playList: state.getIn(['player', 'playList']),
   sequencePlayList: state.getIn(['player', 'sequencePlayList']),
@@ -306,6 +321,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     changePlayListDispatch(data) {
       dispatch(changePlayList(data));
+    },
+    changeSpeedDispatch(data) {
+      dispatch(changeSpeed(data));
     },
   };
 };

@@ -14,9 +14,9 @@ import {
 import animations from 'create-keyframe-animation';
 import { prefixStyle, formatPlayTime } from '../../../api/utils';
 import ProgressBar from '../../../baseUI/progress-bar/index';
-import { playMode } from '../../../api/config';
+import { playMode, list } from '../../../api/config';
 import Scroll from '../../../baseUI/scroll';
-import { LyricContainer, LyricWrapper } from './style';
+import { LyricContainer, LyricWrapper, List, ListItem } from './style';
 
 function NormalPlayer(props) {
   const { song, fullScreen, playing, percent, duration, currentTime } = props;
@@ -29,8 +29,13 @@ function NormalPlayer(props) {
     mode,
     changeMode,
     togglePlayList,
+    speed,
+    currentLineNum,
+    currentPlayingLyric,
+    currentLyric,
+    clickSpeed,
   } = props;
-  const { currentLineNum, currentPlayingLyric, currentLyric } = props;
+  // const { currentLineNum, currentPlayingLyric, currentLyric, clickSpeed } = props;
 
   const normalPlayerRef = useRef();
   const cdWrapperRef = useRef();
@@ -165,16 +170,14 @@ function NormalPlayer(props) {
           />
         </div>
         <div className="background layer"></div>
-        <Top className="top">
+        <Top
+          className="top"
+          onClick={() => {
+            toggleFullScreenDispatch(false);
+          }}
+        >
           <div className="back">
-            <i
-              className="iconfont icon-back"
-              onClick={() => {
-                toggleFullScreenDispatch(false);
-              }}
-            >
-              &#xe662;
-            </i>
+            <i className="iconfont icon-back">&#xe662;</i>
           </div>
           <h1 className="title">{song.name}</h1>
           <h1 className="subtitle">{getName(song.ar)}</h1>
@@ -239,6 +242,20 @@ function NormalPlayer(props) {
           </CSSTransition>
         </Middle>
         <Bottom className="bottom">
+          <List>
+            <span> 倍速听歌 </span>
+            {list.map((item) => {
+              return (
+                <ListItem
+                  key={item.key}
+                  className={`${speed === item.key ? 'selected' : ''}`}
+                  onClick={() => clickSpeed(item.key)}
+                >
+                  {item.name}
+                </ListItem>
+              );
+            })}
+          </List>
           <ProgressWrapper>
             <span className="time time-l">{formatPlayTime(currentTime)}</span>
             <div className="progress-bar-wrapper">
