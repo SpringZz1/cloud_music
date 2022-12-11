@@ -1,9 +1,10 @@
 import React from 'react';
 import { SliderContainer } from './style';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Autoplay, Pagination } from 'swiper';
-import 'swiper/css/bundle';
-SwiperCore.use([Autoplay]);
+import { Autoplay, Pagination } from 'swiper';
+// import 'swiper/css/bundle';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 function Slider(props) {
   const { bannerList } = props;
@@ -14,9 +15,15 @@ function Slider(props) {
       <div className="slider-container">
         <div className="swiper-wrapper">
           <Swiper
-            modules={[Pagination]}
-            autoplay
-            pagination={{ type: 'bullets' }}
+            modules={[Autoplay, Pagination]}
+            spaceBetween={0}
+            slidesPerView={1}
+            loop={true}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+            pagination={{ el: '.swiper-pagination', clickable: true }}
           >
             {bannerList.map((slider, index) => {
               return (
