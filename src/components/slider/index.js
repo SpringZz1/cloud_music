@@ -20,7 +20,7 @@ function Slider(props) {
             slidesPerView={1}
             loop={true}
             autoplay={{
-              delay: 3000,
+              delay: 2000,
               disableOnInteraction: false,
             }}
             pagination={{ el: '.swiper-pagination', clickable: true }}
